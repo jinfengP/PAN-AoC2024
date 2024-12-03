@@ -4,10 +4,9 @@ def get_file_data(file_name):
     for line in f:
         data.append(line.rstrip())
     return data
+list = get_file_data("input.txt")
 
 
-list = get_file_data("2024Day1.txt")
-# you now have a list of Strings from the input file
 list1 = [] #first half of pair
 list2 = [] #the other pair
 for i in range(len(list)):

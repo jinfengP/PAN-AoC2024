@@ -69,12 +69,24 @@ def xmasCrossword():
                 if booleanList[7]:
                     if grid[r+1][e+1] == "M" and grid[r+2][e+2] == "A" and grid[r+3][e+3] == "S":
                         countxmas+=1
+                #kind of brute forced it but oh well
     return countxmas
 
 def crossmasFinder():
+    crossmasCount = 0
     for r in range(len(grid)):
         for e in range(len(grid[r])):
             if grid[r][e] == "A":
-                if e < 1 or e > len(grid[r]) - 2 or r > len(grid) - 2 or r < 1: # IF NOT TOUCHING THE EDGES
-                    
+                if not ((e < 1) or (e > len(grid[r]) - 2) or (r > len(grid) - 2) or (r < 1)): # IF NOT TOUCHING THE EDGES
+                    # the following r the only 4 valid combinations that form a crossed mas
+                    if (grid[r-1][e-1] == "M" and grid[r+1][e+1] == "S" and grid[r-1][e+1] == "S" and grid[r+1][e-1] == "M"):
+                        crossmasCount+=1
+                    elif (grid[r-1][e-1] == "M" and grid[r+1][e+1] == "S" and grid[r-1][e+1] == "M" and grid[r+1][e-1] == "S"):
+                        crossmasCount+=1
+                    elif (grid[r-1][e-1] == "S" and grid[r+1][e+1] == "M" and grid[r-1][e+1] == "M" and grid[r+1][e-1] == "S"):
+                        crossmasCount+=1
+                    elif (grid[r-1][e-1] == "S" and grid[r+1][e+1] == "M" and grid[r-1][e+1] == "S" and grid[r+1][e-1] == "M"):
+                        crossmasCount+=1
+    return crossmasCount
+
                     

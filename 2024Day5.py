@@ -36,12 +36,9 @@ def checkUpdateOrderThenAddMiddleNumber():
                 if secondNum in updates[u][num]:
                     secondNumIndex = num
             if not (firstNumIndex == -1) and not (secondNumIndex == -1): #if both are found then
-                print("ttt " + str(firstNumIndex) + " " + str(secondNumIndex)) 
                 if (not ruleBroken) and (int(firstNumIndex) < int(secondNumIndex)): #this makes it valid!
                     sumOfCurrentRow = int(updates[u][len(updates[u])//2])
-                    print("weewoo " + str(int(updates[u][len(updates[u])//2])))
                 elif (int(firstNumIndex) > int(secondNumIndex)):
-                    print("Rule has been broken " + str(rules[r]))
                     ruleBroken = True
                     sumOfCurrentRow = 0
         sumOfMiddleNums += sumOfCurrentRow

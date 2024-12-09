@@ -1,4 +1,3 @@
-
 def get_file_data(file_name):
     f = open(file_name)
     data = []
@@ -14,58 +13,56 @@ for line in file_data:
     for letter in line:
         row.append(letter)
     map.append(row)
-# map is our really large 2d array
-
-movingUp = True
-movingRight = False
-movingDown = False
-movingLeft = False
 
 def findGuard(choice):
     for r in range(len(map)):
         for c in range(len(map[r])):
-            if not (map[r][c] == "." or map[r][c] == "X" or map[r][c] == "#"):
+            if map[r][c] == "^": # map(y,x) why does it do this
                 if choice == "xpos":
-                    return c
-                elif choice == "ypos":
                     return r
-                else:
-                    return 0000
+                elif choice == "ypos":
+                    return c
 
 def checkObstruction():
     x = findGuard("xpos")
     y = findGuard("ypos")
-    if movingUp:
-        if map[x][y-1] == "#":
-            return True
-    elif movingLeft:
-        if map[x-1][y] == "#":
-            return True
-    elif movingRight:
-        if map[x+1][y] == "#":
-            return True
-    elif movingDown:
-        if map[x][y+1] == "#":
-            return True
+    if ((y > 0) and (y < len(map[0])-1) and (x > 0) and (x < len(map)-1)):
+        if movingUp:
+            if map[x-1][y] == "#":
+                return True
+        elif movingLeft:
+            if map[x][y-1] == "#":
+                return True
+        elif movingRight:
+            if map[x][y+1] == "#":
+                return True
+        elif movingDown:
+            if map[x+1][y] == "#":
+                return True
+        return False
     return False
 # ^ returns true if there is an obstacle in the way
 
 
-def calculateGuardMoves(): # whilst the guard is NOT on the edge of the map,
-    while not (findGuard("xpos") > 0) or (findGuard("xpos") < len(map[0])-1) or (findGuard("ypos") > 0) or (findGuard("ypos") < len(map)-1):
+def calculateGuardMovesAndCountX(): # whilst the guard is NOT on the edge of the map,
+    global movingUp
+    global movingRight
+    global movingDown
+    global movingLeft
+    while ((findGuard("ypos") > 0) and (findGuard("ypos") < len(map[0])-1) and (findGuard("xpos") > 0) and (findGuard("xpos") < len(map)-1)):
         if not checkObstruction():
             x = findGuard("xpos")
             y = findGuard("ypos")
             map[x][y] = "X"
             if movingUp:
-                map[x][y-1] = "^"
-            elif movingRight:
-                map[x+1][y] = "^"
-            elif movingDown:
-                map[x][y+1] = "^"
-            elif movingLeft:
                 map[x-1][y] = "^"
-        elif checkObstruction():
+            elif movingRight:
+                map[x][y+1] = "^"
+            elif movingDown:
+                map[x+1][y] = "^"
+            elif movingLeft:
+                map[x][y-1] = "^"
+        else:
             if movingUp:
                 movingUp = False
                 movingRight = True
@@ -78,6 +75,18 @@ def calculateGuardMoves(): # whilst the guard is NOT on the edge of the map,
             elif movingLeft:
                 movingLeft = False
                 movingUp = True
-calculateGuardMoves()
-print(map)
+    count = 1
+    for r in range(len(map)):
+        for c in range(len(map)):
+            if map[r][c] == "X":
+                count+=1
+    return count
+
+
+movingUp = True
+movingRight = False
+movingDown = False
+movingLeft = False
+
+print(calculateGuardMovesAndCountX())
 

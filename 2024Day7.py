@@ -1,3 +1,5 @@
+# THIS DOES NOT WORK BTW
+
 def get_file_data(file_name):
     f = open(file_name)
     data = []

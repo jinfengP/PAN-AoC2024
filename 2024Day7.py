@@ -10,7 +10,8 @@ list = get_file_data("input.txt")
 
 
 def findCombinationOfMultAndAdd(testValue, factors):
-    listOfAllCombinations = []
+    listOfAllCombinations = [] # unfortunately this list includes numbers that arent FULLY operated on
+    # using this method, the only theory i have is to add an "numTimesOperatedOn" variable to EACH number but im going to sleep
     for i in range(len(factors)-1):
         if not len(listOfAllCombinations) == 0:
                 for j in range(len(listOfAllCombinations)):
@@ -23,8 +24,10 @@ def findCombinationOfMultAndAdd(testValue, factors):
             addByNext = int(factors[i]) + int(factors[i+1])
             listOfAllCombinations.append(multByNext)
             listOfAllCombinations.append(addByNext)
+    listOfAllCombinations = listOfAllCombinations[:len(listOfAllCombinations)*len(listOfAllCombinations)] # I DONT KNOW HOWWWWWWW
     for i in listOfAllCombinations:
         if int(testValue) == int(i):
+            print(testValue + ": " + str(factors) + ", " + str(listOfAllCombinations))
             return True
     return False
 

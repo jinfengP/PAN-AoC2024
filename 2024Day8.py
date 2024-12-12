@@ -1,3 +1,5 @@
+
+import re
 def get_file_data(file_name):
     f = open(file_name)
     data = []
@@ -28,8 +30,9 @@ for i in map:
 dontSearch = []
 def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1
     if 0 <= x <= len(map[0])-1 and 0 <= y <= len(map) - 1:
+        print("inBounds")
         return True
-    print("outOfBounds")
+    print(str(x) + ", " + str(y) + ":  " + "outOfBounds")
     return False
 
 def placeXforOneAntenna(oy,ox): #given ONE antenna location, find the other antenna and double/reverse relative positions to include the Xs
@@ -42,11 +45,23 @@ def placeXforOneAntenna(oy,ox): #given ONE antenna location, find the other ante
                 listOfRelPos.append("(" + str(x-ox) + ", " + str(y-oy) + ")")
     print(listOfRelPos) # position relative the first antenna. elements are in deltaY, deltaX
     for i in range(len(listOfRelPos)):
-        r = listOfRelPos[i].replace("(",'')
-        r = r.replace(")",'')
-        listOfRelPos[i] = r.replace(', ','')
+        firstSearch = "\\(-?[0-9]{1,2}"
+        secondSearch = "-?[0-9]{1,2}\\)"
+        ldeltaY=re.findall(firstSearch, listOfRelPos[i])
+        ldeltaX=re.findall(secondSearch, listOfRelPos[i])
+        print(ldeltaY)
+        print(ldeltaX)
+        deltaY = ldeltaY[0]
+        deltaX = ldeltaX[0]
+        #---
+        deltaY = deltaY[1:]
+        deltaX = deltaX[:-1]
+        print(deltaY)
+        print(deltaX)
+        if checkBounds(oy-int(deltaY)*2,ox-int(deltaX)*2) and map[oy-int(deltaY)*2][ox-int(deltaX)*2] == '.':
+            map[oy-int(deltaY)*2][ox-int(deltaX)*2] = "X"
+        if checkBounds(oy - int(deltaY) * -1, ox - int(deltaX) * -1) and map[oy - int(deltaY) * -1][ox - int(deltaX) * -1] == '.':
+            map[oy - int(deltaY) * -1][ox - int(deltaX) * -1] = "X"
     print(listOfRelPos)
-
-
 
 placeXforOneAntenna(8,1)

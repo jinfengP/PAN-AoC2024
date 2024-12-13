@@ -24,8 +24,6 @@ for line in list:
 # REVERSE the list of positions and modify the map to include them
 # before changing, check if that position is empty.
 # add the antenna's frequency to a "dont search this" list and repeat for every unique antenna.
-for i in map:
-    print(i)
 
 dontSearch = []
 def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1
@@ -35,13 +33,13 @@ def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1
     print(str(x) + ", " + str(y) + ":  " + "outOfBounds")
     return False
 
-def placeXforOneAntenna(oy,ox): #given ONE antenna location, find the other antenna and double/reverse relative positions to include the Xs
-    freq = map[ox][oy] # x is horizontal y is vertical
+def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other antenna and double/reverse relative positions to include the Xs
+    freq = map[oy][ox] # x is horizontal y is vertical
     listOfRelPos = []
     print(freq)
-    for x in range(len(map)):
-        for y in range(len(map)):
-            if map[x][y] == freq:
+    for y in range(len(map)):
+        for x in range(len(map[0])):
+            if map[y][x] == freq and (not (y == oy and x == ox)):
                 listOfRelPos.append("(" + str(x-ox) + ", " + str(y-oy) + ")")
     print(listOfRelPos) # position relative the first antenna. elements are in deltaY, deltaX
     for i in range(len(listOfRelPos)):
@@ -49,19 +47,25 @@ def placeXforOneAntenna(oy,ox): #given ONE antenna location, find the other ante
         secondSearch = "-?[0-9]{1,2}\\)"
         ldeltaY=re.findall(firstSearch, listOfRelPos[i])
         ldeltaX=re.findall(secondSearch, listOfRelPos[i])
-        print(ldeltaY)
-        print(ldeltaX)
-        deltaY = ldeltaY[0]
         deltaX = ldeltaX[0]
-        #---
-        deltaY = deltaY[1:]
+        deltaY = ldeltaY[0]
+
         deltaX = deltaX[:-1]
-        print(deltaY)
+        deltaY = deltaY[1:]
         print(deltaX)
-        if checkBounds(oy-int(deltaY)*2,ox-int(deltaX)*2) and map[oy-int(deltaY)*2][ox-int(deltaX)*2] == '.':
-            map[oy-int(deltaY)*2][ox-int(deltaX)*2] = "X"
-        if checkBounds(oy - int(deltaY) * -1, ox - int(deltaX) * -1) and map[oy - int(deltaY) * -1][ox - int(deltaX) * -1] == '.':
-            map[oy - int(deltaY) * -1][ox - int(deltaX) * -1] = "X"
+        print(deltaY)
+        if checkBounds(ox+int(deltaX)*2,oy+int(deltaY)*2) and map[oy+int(deltaY)*2][ox+int(deltaX)*2] == '.':
+            print("placed X!")
+            map[oy+int(deltaY)*2][ox+int(deltaX)*2] = "X"
+        if checkBounds(ox + int(deltaX) * -1, oy + int(deltaY) * -1) and map[oy + int(deltaY) * -1][ox + int(deltaX) * -1] == '.':
+            print("placed X!")
+            map[oy + int(deltaY) * -1][ox + int(deltaX) * -1] = "X"
     print(listOfRelPos)
 
-placeXforOneAntenna(8,1)
+for i in map:
+    print(i)
+
+placeXforOneAntenna(7,5)
+
+for i in map:
+    print(i)

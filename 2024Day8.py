@@ -26,7 +26,7 @@ for line in list:
 # add the antenna's frequency to a "dont search this" list and repeat for every unique antenna.
 
 dontSearch = []
-def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1
+def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1 / i dont htink i used this correctly but whatever atp
     if 0 <= x <= len(map[0])-1 and 0 <= y <= len(map) - 1:
         print("inBounds")
         return True
@@ -47,25 +47,31 @@ def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other ante
         secondSearch = "-?[0-9]{1,2}\\)"
         ldeltaY=re.findall(firstSearch, listOfRelPos[i])
         ldeltaX=re.findall(secondSearch, listOfRelPos[i])
-        deltaX = ldeltaX[0]
-        deltaY = ldeltaY[0]
+        deltaX = ldeltaY[0]
+        deltaY = ldeltaX[0]
 
-        deltaX = deltaX[:-1]
-        deltaY = deltaY[1:]
+        deltaX = deltaX[1:]
+        deltaY = deltaY[:-1]
         print(deltaX)
         print(deltaY)
-        if checkBounds(ox+int(deltaX)*2,oy+int(deltaY)*2) and map[oy+int(deltaY)*2][ox+int(deltaX)*2] == '.':
-            print("placed X!")
-            map[oy+int(deltaY)*2][ox+int(deltaX)*2] = "X"
-        if checkBounds(ox + int(deltaX) * -1, oy + int(deltaY) * -1) and map[oy + int(deltaY) * -1][ox + int(deltaX) * -1] == '.':
-            print("placed X!")
-            map[oy + int(deltaY) * -1][ox + int(deltaX) * -1] = "X"
-    print(listOfRelPos)
+        if checkBounds( (ox+int(deltaX)*2), (oy+int(deltaY)*2)) and map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] == '.':
+            print("placed #!")
+            map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] = "#"
+        if checkBounds((ox + int(deltaX) * -1), (oy + int(deltaY) * -1)) and map[ (oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] == '.':
+            print("placed #!")
+            map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] = "#"
 
-for i in map:
-    print(i)
 
-placeXforOneAntenna(7,5)
+for y in range(len(map)):
+    for x in range(len(map[0])):
+        if not (map[y][x] == "." or map[y][x] == "#"):
+            placeXforOneAntenna(x,y)
+countX =0
+for i in range(len(map)):
+    for j in range(len(map[0])):
+        if map[i][j] == "#":
+            countX +=1;
+print(countX)
 
 for i in map:
     print(i)

@@ -25,15 +25,15 @@ for line in list:
 # before changing, check if that position is empty.
 # add the antenna's frequency to a "dont search this" list and repeat for every unique antenna.
 
-dontSearch = []
 def checkBounds(x,y): #given x and y, check if x >= 0 and <= len(map[0])-1 / i dont htink i used this correctly but whatever atp
     if 0 <= x <= len(map[0])-1 and 0 <= y <= len(map) - 1:
-        print("inBounds")
+        print(str(x) + ', ' + str(y) + ": inBounds")
         return True
     print(str(x) + ", " + str(y) + ":  " + "outOfBounds")
     return False
 
 def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other antenna and double/reverse relative positions to include the Xs
+    overlapCount = 0
     freq = map[oy][ox] # x is horizontal y is vertical
     listOfRelPos = []
     print(freq)
@@ -54,24 +54,36 @@ def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other ante
         deltaY = deltaY[:-1]
         print(deltaX)
         print(deltaY)
-        if checkBounds( (ox+int(deltaX)*2), (oy+int(deltaY)*2)) and map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] == '.':
-            print("placed #!")
-            map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] = "#"
-        if checkBounds((ox + int(deltaX) * -1), (oy + int(deltaY) * -1)) and map[ (oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] == '.':
-            print("placed #!")
-            map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] = "#"
+        if checkBounds( (ox+int(deltaX)*2), (oy+int(deltaY)*2)):
+            if map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] == '.':
+                print("placed #!")
+                map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] = "#"
+            if not map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] == '#':
+                overlapCount += 1
+                print('overlapped')
+        if checkBounds((ox + int(deltaX) * -1), (oy + int(deltaY) * -1)):
+            if map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] == '.':
+                print("placed #!")
+                map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] = "#"
+            if not map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] == "#":
+                overlapCount += 1
+                print('overlapped')
+    return int(overlapCount)
 
-
+totalOverlap = 0
 for y in range(len(map)):
     for x in range(len(map[0])):
         if not (map[y][x] == "." or map[y][x] == "#"):
             placeXforOneAntenna(x,y)
-countX =0
+            totalOverlap += placeXforOneAntenna(x,y)
+
+count = 0
 for i in range(len(map)):
     for j in range(len(map[0])):
         if map[i][j] == "#":
-            countX +=1;
-print(countX)
-
+            count +=1;
+print(totalOverlap)
+count += totalOverlap
+print(count)
 for i in map:
     print(i)

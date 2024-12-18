@@ -56,7 +56,6 @@ def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other ante
         deltaY = deltaY[:-1]
         print(deltaX)
         print(deltaY)
-        for i in range(2,len(map)):
             if checkBounds( (ox+int(deltaX)*2), (oy+int(deltaY)*2)):
                 if map[(oy+int(deltaY)*2)][ (ox+int(deltaX)*2)] == '.':
                     print("placed #!")
@@ -66,8 +65,6 @@ def placeXforOneAntenna(ox,oy): #given ONE antenna location, find the other ante
                         overlapCount += 1
                         alreadyOverlapped.append(str( (ox+int(deltaX)*2))+ " " + str((oy+int(deltaY)*2)))
                         print('overlapped')
-        for i in range(1,len(map)):
-            i *= -1
             if checkBounds((ox + int(deltaX) * -1), (oy + int(deltaY) * -1)):
                 if map[(oy + int(deltaY) * -1)][(ox + int(deltaX) * -1)] == '.':
                     print("placed #!")

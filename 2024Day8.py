@@ -101,7 +101,7 @@ def placeAllXforOneAntenna(ox,oy):
         deltaY = deltaY[:-1]
         print(deltaX)
         print(deltaY)
-        for i in range(2,len(map)):
+        for i in range(0,len(map)):
             if checkBounds((ox + int(deltaX) * i), (oy + int(deltaY) * i)):
                 if map[(oy + int(deltaY) * i)][(ox + int(deltaX) * i)] == '.':
                     print("placed #!")
@@ -112,7 +112,7 @@ def placeAllXforOneAntenna(ox,oy):
                         count += 1
                         alreadyOverlapped.append(str((ox + int(deltaX) * i)) + " " + str((oy + int(deltaY) * i)))
                         print('overlapped')
-        for i in range(1,len(map)):
+        for i in range(0,len(map)):
             i *= -1
             if checkBounds((ox + int(deltaX) * i), (oy + int(deltaY) * i)):
                 if map[(oy + int(deltaY) * i)][(ox + int(deltaX) * i)] == '.':
@@ -124,7 +124,6 @@ def placeAllXforOneAntenna(ox,oy):
                         count+=1
                         alreadyOverlapped.append(str((ox + int(deltaX) * -1)) + " " + str((oy + int(deltaY) * -1)))
                         print('overlapped')
-    print("overlaps: " + str(overlapCount))
     return int(count)
 
 count=0
